@@ -12,7 +12,7 @@ export default function Footer(props: {
 
   return (
     <footer className="flex-shrink-0 w-full fixed bottom-0 border-primary border-opacity-50 border-t-2">
-      <Collapsible.Root
+      {/* <Collapsible.Root
         className="h-full"
         open={props.open}
         onOpenChange={props.setOpen}
@@ -47,7 +47,7 @@ export default function Footer(props: {
         <Collapsible.Content>
           {info && <Info info={info} />}
         </Collapsible.Content>
-      </Collapsible.Root>
+      </Collapsible.Root> */}
     </footer>
   )
 }
