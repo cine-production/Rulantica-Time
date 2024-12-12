@@ -11,7 +11,7 @@ export default function Disclaimer() {
         href="https://www.magicbell.com/"
         target="_blank"
       >
-        <span className="text-muted text-xs">built by</span>
+        <span className="text-muted text-xs">Créer par</span>
         <Image
           height={20}
           width={103}
