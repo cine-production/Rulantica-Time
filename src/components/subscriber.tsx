@@ -68,10 +68,10 @@ export default function Subscriber({
         classname="bg-primary"
         disabled={false}
       />
-      <p className="text-xs mt-6 mb-16">
+      {/* <p className="text-xs mt-6 mb-16">
         * Once you subscribe we will send you one automatic test-notification.
         You can unsubscribe at any time.
-      </p>
+      </p> */}
     </>
   )
 }

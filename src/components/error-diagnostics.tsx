@@ -65,7 +65,7 @@ export default function ErrorDiagnostics(props: { error: string }) {
           case "denied":
             return (
               <p>
-                {`It looks like you denied notification permissions for WebPushTest.com in ${info.browserName}. To receive push notifications, please permit us to notify you.`}
+                {`Il semble que vous ayez refusé les autorisations de notification pour EuroParkTime dans ${info.browserName}. Pour recevoir des notifications, veuillez nous autoriser à vous en informer.`}
               </p>
             )
         }
