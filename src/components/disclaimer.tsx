@@ -15,8 +15,8 @@ export default function Disclaimer() {
         <Image
           height={20}
           width={103}
-          src="/logo.svg"
-          alt="magic bell logo"
+          src="/AVservicelogo.png"
+          alt="Adrien Vischer logo"
         ></Image>
       </a>
     </section>
