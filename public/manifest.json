@@ -1,6 +1,6 @@
 {
-  "name": "Web Push Test",
-  "short_name": "WebPushTest",
+  "name": "Europa Park Time",
+  "short_name": "EuroParkTime",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#90cdf4",
@@ -8,12 +8,12 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "bell2.png",
+      "src": "logoEPT.png",
       "sizes": "500x500",
       "type": "image&#x2F;png"
     },
     {
-      "src": "bell.png",
+      "src": "logoEPT.png",
       "sizes": "192x192",
       "type": "image&#x2F;png"
     }

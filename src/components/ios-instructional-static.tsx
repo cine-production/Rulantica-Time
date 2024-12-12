@@ -13,7 +13,7 @@ function Tile(props: {
       <figcaption
         className={`absolute w-full leading-16 h-16 top-0 flex items-center text-left justify-start text-muted text-sm`}
       >
-        <span className="text-text mr-4 whitespace-nowrap">{`Step ${props.index}:`}</span>
+        <span className="text-text mr-4 whitespace-nowrap">{`Etape ${props.index} :`}</span>
         {props.caption}
       </figcaption>
       <Image
@@ -34,13 +34,13 @@ export default function IosInstructionalStatic() {
         className="text-center h-12 uppercase text-xs flex items-center justify-center"
         style={{ letterSpacing: "2px" }}
       >
-        Installation instructions
+        Instruction d'installation
       </h2>
       <section className="w-full max-w-xs mx-auto">
-        <Tile index={1} caption={"In Safari, click the 'share' button"} />
-        <Tile index={2} caption={"Click 'Add to Home Screen'"} />
-        <Tile index={3} caption={"Review settings and click 'Add'"} />
-        <Tile index={4} caption={"Launch app from home screen"} />
+        <Tile index={1} caption={"Dans Safari, cliquez sur le bouton 'partager'"} />
+        <Tile index={2} caption={"Cliquez sur 'Sur l'écran d'acceuil'"} />
+        <Tile index={3} caption={"Puis cliquez sur 'Ajouter'"} />
+        <Tile index={4} caption={"Lancez l'application depuis l'écran d'acceuil"} />
       </section>
     </>
   );

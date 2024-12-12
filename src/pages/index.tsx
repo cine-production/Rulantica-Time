@@ -154,7 +154,7 @@ export default function Home() {
           inter.className
         }
       >
-        <h1>Web Push Notifications Demo</h1>
+        <h1>Europa Park Time</h1>
       </header>
 
       <Head>
