@@ -64,7 +64,7 @@ export default function Subscriber({
     <>
       <Button
         onClick={handleSubscribe}
-        text="Subscribe"
+        text="Autoriser les notifications"
         classname="bg-primary"
         disabled={false}
       />
