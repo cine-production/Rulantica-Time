@@ -22,7 +22,7 @@ export default async function handler(
 ) {
   await magicbell.notifications.create({
     title: "Merci !",
-    content: "Vous pourrais désormé recevoir des notifications des temps d'attentes",
+    content: "Vous pouvez désormais recevoir des notifications sur les temps d'attente.",
     action_url: "",
     recipients: [{ external_id: req.body.userId }],
     category: "default",
