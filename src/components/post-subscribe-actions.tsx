@@ -30,20 +30,20 @@ export default function PostSubscribeActions(props: IProps) {
       {props.interactive ? (
         <Button
           onClick={handleResend}
-          text="Send me a random HN post"
+          text="Désactiver les notifications"
           classname="bg-primary"
           disabled={false}
         />
       ) : (
         <Button
-          text="Notification on its way!"
+          text="Une notification va arriver !"
           classname="bg-green-500"
           disabled={true}
           loading
         />
       )}
-      <div className="text-purple-300 mb-4">OR</div>
-      <TopicSubscriberWrapper
+      {/* <div className="text-purple-300 mb-4">OR</div> */}
+      {/* <TopicSubscriberWrapper
         renderDescription={() => (
           <span>
             {" "}
@@ -63,7 +63,7 @@ export default function PostSubscribeActions(props: IProps) {
         topics={Object.values(topics)}
         interactive={props.interactive}
         onAfterInteract={props.onAfterInteract}
-      />
+      /> */}
     </>
   )
 }
