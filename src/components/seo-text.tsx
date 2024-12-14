@@ -22,7 +22,7 @@ export default function SeoText() {
   // Fonction pour récupérer les données
   const fetchData = () => {
   const parkId = '51'; // Remplacez par l'ID réel du parc
-  fetch(`https://ep-time.vercel.app/api/proxy?parkId=51`)
+  fetch(`/api/proxy?parkId=${parkId}`)
     .then((response) => response.json())
     .then((data) => {
       console.log('Données récupérées:', data); // Afficher les données dans la console
