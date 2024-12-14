@@ -22,13 +22,7 @@ export default function SeoText() {
   // Fonction pour récupérer les données
   const fetchData = () => {
     const parkId = '51';
-  fetch(`https://queue-times.com/parks/${parkId}/queue_times.json`, {
-    mode: 'no-cors', // Allow CORS
-    cache: 'no-cache', // Prevent caching
-    headers: {
-      'Content-Type': 'application/json' // Optional, depending on API requirements
-    }
-  })
+  fetch(`https://queue-times.com/parks/${parkId}/queue_times.json`)
     .then(response => response.json())
     .then(data => {
         if (data && data.lands) {
