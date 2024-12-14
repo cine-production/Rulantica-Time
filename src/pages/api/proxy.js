@@ -1,19 +1,25 @@
 // pages/api/proxy.js
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
+const proxy = createProxyMiddleware({
+  target: 'https://queue-times.com', // Serveur cible
+  changeOrigin: true,
+  pathRewrite: {
+    '^/api/proxy': '', // Retirer le préfixe '/api/proxy'
+  },
+});
+
+export const config = {
+  api: {
+    bodyParser: false, // Désactive l'analyseur de corps pour laisser passer le flux
+  },
+};
+
 export default function handler(req, res) {
-  const { parkId } = req.query; // Récupérer l'ID du parc depuis la requête
-
-  if (!parkId) {
-    return res.status(400).json({ error: 'Park ID is required' });
-  }
-
-  // Proxy vers l'API des temps d'attente du parc
-  return createProxyMiddleware({
-    target: `https://queue-times.com/parks/${parkId}/queue_times.json`, // URL dynamique selon le parc
-    changeOrigin: true,
-    pathRewrite: {
-      '^/api/proxy': '', // Retirer le préfixe '/api/proxy'
-    },
-  })(req, res);
+  return proxy(req, res, (result) => {
+    if (result instanceof Error) {
+      console.error('Erreur du proxy:', result);
+      res.status(500).json({ error: 'Erreur du proxy' });
+    }
+  });
 }
