@@ -22,7 +22,7 @@ export default function SeoText() {
   // Fonction pour récupérer les données
   const fetchData = () => {
     const parkId = '51';
-    fetch(`/api/proxy?parkId=${parkId}`, {
+    fetch(`https://cors-anywhere.herokuapp.com/https://queue-times.com/parks/${parkId}/queue_times.json`, {
       method: 'GET',
       cache: 'no-cache',
       headers: {
@@ -45,8 +45,8 @@ export default function SeoText() {
       .catch((error) => {
         console.error('Erreur lors de la récupération des données :', error);
       });
-    
   };
+  
 
   useEffect(() => {
     fetchData(); // Récupération initiale des données
