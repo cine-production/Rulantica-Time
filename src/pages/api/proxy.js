@@ -7,6 +7,11 @@ export default function handler(req, res) {
     return res.status(400).json({ error: 'Park ID is required' });
   }
 
+  // Ajouter les en-têtes CORS à la réponse du proxy
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Permet à n'importe quelle origine d'accéder à cette ressource
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   // Proxy vers l'API des temps d'attente du parc
   createProxyMiddleware({
     target: `https://queue-times.com/parks/${parkId}/queue_times.json`,  // URL dynamique selon le parc
@@ -15,11 +20,10 @@ export default function handler(req, res) {
       '^/api/proxy': '',  // Réécrit le chemin de l'API pour correspondre à l'API cible
     },
     onProxyRes(proxyRes, req, res) {
-      // Ajout de l'en-tête CORS pour autoriser les requêtes depuis n'importe quelle origine
+      // En-têtes supplémentaires pour autoriser l'accès cross-origin
       proxyRes.headers['Access-Control-Allow-Origin'] = '*';
-      // Si nécessaire, vous pouvez ajouter d'autres en-têtes CORS
       proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
-      proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization';
+      proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type';
     }
   })(req, res);
 }
