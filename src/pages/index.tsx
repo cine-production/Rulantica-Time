@@ -154,7 +154,7 @@ export default function Home() {
           inter.className
         }
       >
-        <h1>Europa Park Time 3</h1>
+        <h1>Europa Park Time 4</h1>
       </header>
 
       <Head>
