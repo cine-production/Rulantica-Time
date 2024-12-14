@@ -23,23 +23,34 @@ export default function SeoText() {
   const fetchData = () => {
     const parkId = '51';
     fetch('https://queue-times.com/parks/51/queue_times.json', {
-      mode: 'no-cors', // Allow CORS
-      cache: 'no-cache', // Prevent caching
+      mode: 'no-cors',
+      cache: 'no-cache',
       headers: {
-        'Content-Type': 'application/json' // Optional, depending on API requirements
+        'Content-Type': 'application/json'
       }
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
+      return response.json();
+    })
     .then(data => {
+      try {
+        // Validate data structure here if needed
         if (data && data.lands) {
           setLands(data.lands);
-          setLastUpdate(new Date()); // Met à jour la dernière mise à jour
-          setElapsedTime(0); // Réinitialise le temps écoulé
+          // ...
+        } else {
+          console.error('Invalid JSON data:', data);
         }
-      })
-      .catch((error) => {
-        console.error('Erreur lors de la récupération des données :', error);
-      });
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
   };
 
   useEffect(() => {
