@@ -5,7 +5,7 @@
     margin-bottom: 2rem;
     display: grid;
     justify-items: center;
-    gap: 2rem;
+    gap: 0rem;
     padding: 1rem;
     max-width: 1200px;
     margin-left: auto;
@@ -21,6 +21,31 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     background-color: #2727278c;
+}
+
+.infoUi {
+  display: flex
+;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-end;
+}
+
+.infoTextHoraire {
+  color: aliceblue;
+  font-size: x-small;
+  display: flex;
+}
+.heureOC {
+  color: white;
+  font-weight: bold;
+  font-size: x-small;
+}
+.infoTextMaj {
+  color: aliceblue;
+  font-size: x-small;
+  text-align: right;
 }
   
   /* Style pour le nom du land */
@@ -55,6 +80,7 @@
     border: 7px solid #f59f0b00;
     font-size:xx-large;
     font-weight: bold;
+    min-width: 64px;
 }
   
 .ride-item.green {
@@ -110,3 +136,76 @@
     color: #6b7280;
   }
   
+
+  @media (max-width: 768px) {
+    .ride-name {
+      font-size: 2.5vw;
+      margin-left: 1rem;
+      text-align: left;
+      margin-right: 1rem;
+  }
+  .land-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.wait-time-circle {
+  width: 39px;
+  height: 39px;
+  min-width: 39px;
+}
+.seo-text-container {
+  text-align: center;
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+  display:block;
+  justify-items: center;
+  gap: 0rem!important;
+  padding: 0rem!important;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.land-section {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #a19300;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background-color: #2727278c;
+}
+.infoTextHoraire {
+  color: aliceblue;
+  font-size: x-small;
+  display: flex;
+}
+.heureOC {
+  color: white;
+  font-weight: bold;
+  font-size: x-small;
+}
+.infoTextMaj {
+  color: aliceblue;
+  font-size: x-small;
+  text-align: right;
+}
+  }
+  
+  /* Styles pour les écrans d'ordinateur */
+  /* @media (min-width: 769px) {
+    body {
+      font-size: 18px;
+      background-color: white;
+    }
+  
+    .container {
+      padding: 20px;
+    }
+  
+    .land-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+  } */

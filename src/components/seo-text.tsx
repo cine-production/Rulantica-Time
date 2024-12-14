@@ -78,9 +78,15 @@ export default function SeoText() {
 
   return (
     <section className="seo-text-container">
-      <div className="update-info">
-        <p>Temps écoulé depuis la dernière mise à jour : {elapsedTime} secondes</p>
+      <div className="infoUi">
+        <div className="open-info">
+          {/* <p className="infoTextHoraire">Horaire de<p className="heureOC">&nbspo;{penParc}&nbsp;</p>à<p className="heureOC">&nbsp;{closeParc}&nbsp;</p></p> */}
+        </div>
+        <div className="update-info">
+          <p className="infoTextMaj">Mise à jour<br></br>Il y a {elapsedTime} s</p>
+        </div>
       </div>
+      
 
       {lands && lands.length > 0 ? (
         lands.map((land) => (
