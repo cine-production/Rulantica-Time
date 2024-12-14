@@ -3,21 +3,22 @@
 @tailwind utilities;
 
 :root {
-    --background: #e7e7e7;
     --foreground-rgb: 0, 0, 0;
 }
 
 
 body {
     color: rgb(var(--foreground-rgb));
-    background-color: var(--background);
+    background-image: url(https://presse.europapark.com/uploads/pics/18196-Winter_DeutscheAllee.jpg);
+    background-size: cover;
+    backdrop-filter: blur(14px);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 html,
 body,
 #__next {
-    height: 100%;
-    overflow: visible;
 }
 
 @layer base {

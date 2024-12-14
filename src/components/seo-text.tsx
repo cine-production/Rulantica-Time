@@ -1,89 +1,99 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-interface Ride {
+// Définition des types
+interface Attraction {
   id: number;
   name: string;
-  is_open: boolean;
   wait_time: number;
+  is_open: boolean;
 }
 
 interface Land {
   id: number;
   name: string;
-  rides: Ride[];
+  rides: Attraction[];
 }
 
 export default function SeoText() {
   const [lands, setLands] = useState<Land[]>([]);
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null); // État pour suivre la dernière mise à jour
+  const [elapsedTime, setElapsedTime] = useState<number>(0); // Temps écoulé depuis la dernière mise à jour
+
+  // Fonction pour récupérer les données
+  const fetchData = () => {
+    const parkId = '51'; // Remplacez par l'ID réel du parc
+    fetch(`/api/proxy?parkId=${parkId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.lands) {
+          setLands(data.lands);
+          setLastUpdate(new Date()); // Met à jour l'heure actuelle comme dernière mise à jour
+          setElapsedTime(0); // Réinitialise le compteur à 0
+        }
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des données :', error);
+      });
+  };
 
   useEffect(() => {
-    const fetchWaitTimes = async () => {
-      try {
-        const response = await fetch(
-          "https://queue-times.com/parks/51/queue_times.json"
-        );
-        const data = await response.json();
-        console.log("Données API :", data); // Vérifiez ce qui est récupéré
-        setLands(data.lands);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error);
-      }
-    };
-  
-    fetchWaitTimes();
-  }, []);
-  
+    fetchData(); // Récupération initiale des données
 
-  // Définir la couleur et le contenu du cercle en fonction de l'état de l'attraction
-  const getCircleStyle = (ride: Ride) => {
-    if (!ride.is_open) {
-      return {
-        color: "bg-gray-500",
-        text: "✖️", // Symbole pour "fermé"
-      };
-    }
-    if (ride.wait_time <= 10) {
-      return { color: "bg-green-500", text: ride.wait_time.toString() };
-    }
-    if (ride.wait_time <= 30) {
-      return { color: "bg-yellow-500", text: ride.wait_time.toString() };
-    }
-    return { color: "bg-red-500", text: ride.wait_time.toString() };
+    // Mise à jour toutes les 60 secondes
+    const interval = setInterval(() => {
+      fetchData();
+    }, 60000);
+
+    // Mise à jour du temps écoulé chaque seconde
+    const elapsedInterval = setInterval(() => {
+      setElapsedTime((prev) => prev + 1);
+    }, 1000);
+
+    // Nettoyage des intervalles
+    return () => {
+      clearInterval(interval);
+      clearInterval(elapsedInterval);
+    };
+  }, []);
+
+  // Fonction pour déterminer la couleur en fonction du temps d'attente
+  const getColor = (waitTime: number, isOpen: boolean) => {
+    if (!isOpen) return 'gray'; // Gris si l'attraction est fermée
+    if (waitTime < 35) return 'green';  // Vert
+    if (waitTime < 65) return 'yellow'; // Jaune
+    return 'red';  // Rouge
   };
 
   return (
-    <section className="text-center my-8 p-4 max-w-4xl mx-auto ">
-      est
-      {lands.map((land) => (
-        <div key={land.id} className="mb-8">
-          {/* Nom du land */}
-          <h2 className="text-2xl font-bold mb-4">{land.name}</h2>
+    <section className="seo-text-container">
+      <div className="update-info">
+        <p>Temps écoulé depuis la dernière mise à jour : {elapsedTime} secondes</p>
+      </div>
 
-          {/* Attractions */}
-          {land.rides.map((ride) => {
-            const { color, text } = getCircleStyle(ride);
-
-            return (
-              <div
-                key={ride.id}
-                className="flex items-center justify-between p-4 bg-gray-100 rounded-lg shadow-md mb-4"
-              >
-                {/* Cercle avec le temps ou état */}
+      {lands && lands.length > 0 ? (
+        lands.map((land) => (
+          <div key={land.id} className="land-section">
+            <h2 className="land-name">{land.name}</h2>
+            {land.rides.length > 0 ? (
+              land.rides.map((ride) => (
                 <div
-                  className={`w-16 h-16 flex items-center justify-center text-white font-bold rounded-full ${color}`}
+                  key={ride.id}
+                  className={`ride-item ${getColor(ride.wait_time, ride.is_open)}`} // Application dynamique de la couleur
                 >
-                  {text}
+                  <div className={`wait-time-circle ${getColor(ride.wait_time, ride.is_open)}`}>
+                    {ride.is_open ? ride.wait_time : <img width="35rem" src="/fermer.svg" />} {/* Affichage du temps ou du symbole interdit */}
+                  </div>
+                  <span className="ride-name">{ride.name}</span>
                 </div>
-
-                {/* Nom de l'attraction */}
-                <div className="text-left ml-4 text-lg font-medium">
-                  {ride.name}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ))}
+              ))
+            ) : (
+              <p>Aucune attraction disponible dans ce land.</p>
+            )}
+          </div>
+        ))
+      ) : (
+        <p>Chargement des données...</p>
+      )}
     </section>
   );
 }
