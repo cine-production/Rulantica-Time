@@ -21,10 +21,10 @@ export default function SeoText() {
 
   // Fonction pour récupérer les données
   const fetchData = () => {
-    const parkId = '51'; // Remplacez par l'ID réel du parc
-    fetch(`/api/proxy?parkId=${parkId}`)
-      .then((response) => response.json())
-      .then((data) => {
+    const parkId = '51';
+  fetch(`https://queue-times.com/parks/${parkId}/queue_times.json`)
+    .then(response => response.json())
+    .then(data => {
         if (data && data.lands) {
           setLands(data.lands);
           setLastUpdate(new Date()); // Met à jour la dernière mise à jour
