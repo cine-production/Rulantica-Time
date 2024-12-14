@@ -22,28 +22,24 @@ export default function SeoText() {
   // Fonction pour récupérer les données
   const fetchData = () => {
     const parkId = '51';
-    fetch(`https://queue-times.com/parks/${parkId}/queue_times.json`, {
-      method: 'GET',
-      cache: 'no-cache',
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+  fetch(`https://queue-times.com/parks/${parkId}/queue_times.json`, {
+    mode: 'no-cors', // Allow CORS
+    cache: 'no-cache', // Prevent caching
+    headers: {
+      'Content-Type': 'application/json' // Optional, depending on API requirements
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.lands) {
+          setLands(data.lands);
+          setLastUpdate(new Date()); // Met à jour la dernière mise à jour
+          setElapsedTime(0); // Réinitialise le temps écoulé
         }
-        return response.json(); // Tente de parser la réponse en JSON
-      })
-      .then((data) => {
-        if (!data || !data.lands) {
-          throw new Error('Données malformées ou vides.');
-        }
-        setLands(data.lands);
-        setLastUpdate(new Date());
-        setElapsedTime(0);
       })
       .catch((error) => {
         console.error('Erreur lors de la récupération des données :', error);
       });
-    
   };
 
   useEffect(() => {
