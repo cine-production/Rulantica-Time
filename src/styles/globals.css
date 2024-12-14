@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --background: #1B1D29;
+    --background: #e7e7e7;
     --foreground-rgb: 0, 0, 0;
 }
 
@@ -174,5 +174,11 @@ body,
         font-weight: 500;
         color: var(--slate12);
         font-size: 15px;
+    }
+
+    .text-gray-200 {
+        --tw-text-opacity: 1;
+        color: rgb(0 0 0);
+        background: aliceblue;
     }
 }

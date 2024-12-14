@@ -150,7 +150,7 @@ export default function Home() {
     <>
       <header
         className={
-          "border-primary border-opacity-50 border-b-2 leading-8 text-lg font-bold text-gray-200 py-4 bg-section text-center " +
+          "border-primary border-opacity-50 border-b-2 leading-8 text-lg font-bold text-black py-4 bg-white text-center " +
           inter.className
         }
       >

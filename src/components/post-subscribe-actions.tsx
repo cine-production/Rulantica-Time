@@ -29,10 +29,9 @@ export default function PostSubscribeActions(props: IProps) {
     <>
       {props.interactive ? (
         <Button
-          onClick={handleResend}
-          text="Désactiver les notifications"
-          classname="bg-primary"
-          disabled={false}
+          text="✔️ Notification Autorisée"
+          classname="bg-green-500"
+          disabled={true}
         />
       ) : (
         <Button
