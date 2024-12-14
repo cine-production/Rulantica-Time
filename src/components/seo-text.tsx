@@ -16,30 +16,25 @@ interface Land {
 
 export default function SeoText() {
   const [lands, setLands] = useState<Land[]>([]);
-  const [lastUpdate, setLastUpdate] = useState<Date | null>(null); // État pour suivre la dernière mise à jour
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null); // Dernière mise à jour
   const [elapsedTime, setElapsedTime] = useState<number>(0); // Temps écoulé depuis la dernière mise à jour
 
   // Fonction pour récupérer les données
   const fetchData = () => {
-  const parkId = '51'; // Remplacez par l'ID réel du parc
-  fetch(`/api/proxy?parkId=${parkId}`)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Données récupérées:', data); // Afficher les données dans la console
-
-      if (data && data.lands) {
-        setLands(data.lands);
-        setLastUpdate(new Date()); // Met à jour l'heure actuelle comme dernière mise à jour
-        setElapsedTime(0); // Réinitialise le compteur à 0
-      } else {
-        console.error('Données invalides:', data); // Afficher une erreur si la structure est incorrecte
-      }
-    })
-    .catch((error) => {
-      console.error('Erreur lors de la récupération des données :', error);
-    });
-};
-
+    const parkId = '51'; // Remplacez par l'ID réel du parc
+    fetch(`/api/proxy?parkId=${parkId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.lands) {
+          setLands(data.lands);
+          setLastUpdate(new Date()); // Met à jour la dernière mise à jour
+          setElapsedTime(0); // Réinitialise le temps écoulé
+        }
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des données :', error);
+      });
+  };
 
   useEffect(() => {
     fetchData(); // Récupération initiale des données
