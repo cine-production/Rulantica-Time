@@ -22,36 +22,51 @@ export default function SeoText() {
   // Fonction pour récupérer les données
   const fetchData = () => {
     const parkId = '51';
-    fetch('https://queue-times.com/parks/51/queue_times.json', {
-      mode: 'no-cors',
+    fetch(`/api/proxy?parkId=${parkId}`, {
+      method: 'GET',
       cache: 'no-cache',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      try {
-        // Validate data structure here if needed
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
         if (data && data.lands) {
           setLands(data.lands);
-          // ...
-        } else {
-          console.error('Invalid JSON data:', data);
+          setLastUpdate(new Date());
+          setElapsedTime(0);
         }
-      } catch (error) {
-        console.error('Error parsing JSON:', error);
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des données :', error);
+      });
+    
   };
+
+  useEffect(() => {
+    fetchData(); // Récupération initiale des données
+
+    // Mise à jour toutes les 60 secondes
+    const interval = setInterval(() => {
+      fetchData();
+    }, 60000);
+
+    // Mise à jour du temps écoulé chaque seconde
+    const elapsedInterval = setInterval(() => {
+      setElapsedTime((prev) => prev + 1);
+    }, 1000);
+
+    // Nettoyage des intervalles
+    return () => {
+      clearInterval(interval);
+      clearInterval(elapsedInterval);
+    };
+  }, []);
 
   // Fonction pour déterminer la couleur en fonction du temps d'attente
   const getColor = (waitTime: number, isOpen: boolean) => {
