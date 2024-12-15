@@ -23,7 +23,7 @@ export default function SeoText() {
   // Fonction pour récupérer les données
   const fetchData = async () => {
     const parkId = '51';
-    const url = `https://www.proxycors.com/https://queue-times.com/parks/51/queue_times.json`;
+    const url = `https://api.allorigins.win/get?charset=ISO-8859-1&url=https://queue-times.com/parks/51/queue_times.json`;
 
   
     try {
