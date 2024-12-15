@@ -25,6 +25,8 @@ export default function SeoText() {
     const parkId = '51';
     const url = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent('https://queue-times.com/parks/51/queue_times.json')}`;
 
+
+
   
     try {
       const response = await axios.get(url, {
