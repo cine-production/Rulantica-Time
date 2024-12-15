@@ -23,7 +23,7 @@ export default function SeoText() {
   // Fonction pour récupérer les données
   const fetchData = async () => {
     const parkId = '51';
-    const url = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent('https://queue-times.com/parks/51/queue_times.json')}`;
+    const url = `https://api.cors.lol/?url=https://queue-times.com/parks/51/queue_times.json`;
 
 
 
