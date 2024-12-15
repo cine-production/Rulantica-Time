@@ -145,7 +145,7 @@
       margin-right: 1rem;
   }
   .land-name {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
@@ -158,13 +158,16 @@
   text-align: center;
   margin-top: 0rem !important;
   margin-bottom: 0rem !important;
-  display:block;
+  display: flex
+;
   justify-items: center;
-  gap: 0rem!important;
-  padding: 0rem!important;
+  gap: 0rem !important;
+  padding: 0rem !important;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  flex-direction: column;
+  align-items: center;
 }
 .land-section {
   margin: 0.5rem;
