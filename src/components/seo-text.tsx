@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 // Définition des types
 interface Attraction {
@@ -20,32 +21,29 @@ export default function SeoText() {
   const [elapsedTime, setElapsedTime] = useState<number>(0); // Temps écoulé depuis la dernière mise à jour
 
   // Fonction pour récupérer les données
-  const fetchData = () => {
+  const fetchData = async () => {
     const parkId = '51';
-    fetch(`https://cors-anywhere.herokuapp.com/https://queue-times.com/parks/${parkId}/queue_times.json`, {
-      method: 'GET',
-      cache: 'no-cache',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data && data.lands) {
-          setLands(data.lands);
-          setLastUpdate(new Date());
-          setElapsedTime(0);
-        }
-      })
-      .catch((error) => {
-        console.error('Erreur lors de la récupération des données :', error);
+    const url = `https://thingproxy.freeboard.io/fetch/${encodeURIComponent('https://queue-times.com/parks/51/queue_times.json')}`;
+
+  
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          'Accept': 'application/json', // Spécifie le type de réponse attendu
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        },
       });
+  
+      if (response.data && response.data.lands) {
+        setLands(response.data.lands);
+        setLastUpdate(new Date());
+        setElapsedTime(0);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données :', error);
+    }
   };
+  
   
 
   useEffect(() => {
@@ -54,7 +52,7 @@ export default function SeoText() {
     // Mise à jour toutes les 60 secondes
     const interval = setInterval(() => {
       fetchData();
-    }, 60000);
+    }, 300000);
 
     // Mise à jour du temps écoulé chaque seconde
     const elapsedInterval = setInterval(() => {
