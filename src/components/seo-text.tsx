@@ -23,7 +23,8 @@ export default function SeoText() {
   // Fonction pour récupérer les données
   const fetchData = async () => {
     const parkId = '51';
-    const url = `https://cors-proxy.htmldriven.com/?url=${encodeURIComponent('https://queue-times.com/parks/51/queue_times.json')}`;
+    const url = `https://opencorsproxy.herokuapp.com/${encodeURIComponent('https://queue-times.com/parks/51/queue_times.json')}`;
+
 
 
   
