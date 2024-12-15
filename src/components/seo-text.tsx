@@ -54,7 +54,7 @@ export default function SeoText() {
     // Mise à jour toutes les 60 secondes
     const interval = setInterval(() => {
       fetchData();
-    }, 300000);
+    }, 60000);
 
     // Mise à jour du temps écoulé chaque seconde
     const elapsedInterval = setInterval(() => {
