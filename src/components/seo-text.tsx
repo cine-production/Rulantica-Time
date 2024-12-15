@@ -22,17 +22,9 @@ export default function SeoText() {
 
   // Fonction pour récupérer les données
   const fetchData = async () => {
-    const parkId = '51';
-    const url = `https://ep-time.vercel.app/api/parks/${parkId}/queue_times.json
-`;
-
     try {
-      const response = await axios.get(url, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+      // Utilisation du proxy
+      const response = await axios.get('/api/parks/51/queue_times.json');
       if (response.data && response.data.lands) {
         setLands(response.data.lands);
         setLastUpdate(new Date());
