@@ -36,9 +36,23 @@
   color: aliceblue;
   font-size: x-small;
   display: flex;
+  flex-direction: column;
+}
+
+.infoTextHoraire span {
+  display: flex;
+}
+
+.text-green {
+  color: #18cc63!important;
+  text-transform: uppercase;
+}
+.text-red {
+  color: #f44336!important;
+  text-transform: uppercase;
 }
 .heureOC {
-  color: white;
+  color: rgb(245, 208, 0);
   font-weight: bold;
   font-size: x-small;
 }

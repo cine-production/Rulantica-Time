@@ -19,6 +19,36 @@ export default function SeoText() {
   const [lands, setLands] = useState<Land[]>([]);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null); // Dernière mise à jour
   const [elapsedTime, setElapsedTime] = useState<number>(0); // Temps écoulé depuis la dernière mise à jour
+  
+  const [openParc, setOpenParc] = useState<string | null>(null);
+  const [closeParc, setCloseParc] = useState<string | null>(null);
+  const [openedorclosetoday, setOpenedOrClosedToday] = useState<string | null>(null);
+
+  const fetchOpeningTimes = async () => {
+    try {
+      const response = await axios.get('/api/proxy?openingtimes=true', {
+        headers: {
+          'accept': 'application/json',
+          'park': 'europapark',
+        },
+      });
+  
+      const data = response.data;
+      if (data && data.length > 0) {
+        const today = data[0];
+        if (today.opened_today) {
+          setOpenParc(new Date(today.open_from).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
+          setCloseParc(new Date(today.closed_from).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }));
+          setOpenedOrClosedToday('ouvert');
+        } else {
+          setOpenedOrClosedToday('fermé');
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des horaires :', error);
+    }
+  };
+  
 
   // Fonction pour récupérer les données
   const fetchData = async () => {
@@ -49,6 +79,7 @@ export default function SeoText() {
 
   useEffect(() => {
     fetchData(); // Récupération initiale des données
+    fetchOpeningTimes();
 
     // Mise à jour toutes les 60 secondes
     const interval = setInterval(() => {
@@ -79,7 +110,7 @@ export default function SeoText() {
     <section className="seo-text-container">
       <div className="infoUi">
         <div className="open-info">
-          {/* <p className="infoTextHoraire">Horaire de<p className="heureOC">&nbsp;{openParc}&nbsp;</p>à<p className="heureOC">&nbsp;{closeParc}&nbsp;</p></p> */}
+          <span className="infoTextHoraire"><span>Ouvert de<p className="heureOC">&nbsp;{openParc}&nbsp;</p>à<p className="heureOC">&nbsp;{closeParc}</p>.</span><span>le parc sera<p className={`heureOC ${openedorclosetoday === 'ouvert' ? 'text-green ' : 'text-red'}`}>&nbsp;{openedorclosetoday}&nbsp;</p>aujourd'huit</span></span>
         </div>
         <div className="update-info">
           <p className="infoTextMaj">Mise à jour<br></br>Il y a {elapsedTime} s</p>
