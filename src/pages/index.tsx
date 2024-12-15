@@ -183,7 +183,9 @@ export default function Home() {
           <div>Fetching Info</div>
         ) : (
           <div className="h-full max-w-screen-md mx-auto">
-            
+            <ContentWrapper message={""}>{actions(state)}</ContentWrapper>
+            {result(state)}
+            <Disclaimer />
           </div>
         )}
       </main>
