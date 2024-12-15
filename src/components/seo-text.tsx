@@ -106,6 +106,10 @@ export default function SeoText() {
     return 'red';  // Rouge
   };
 
+  const cleanFileName = (name) => {
+    return name.replace(/[^a-zA-Z0-9]/g, ""); // Supprime tous les caractères non alphanumériques
+  };
+
   return (
     <section className="seo-text-container">
       <div className="infoUi">
@@ -133,7 +137,7 @@ export default function SeoText() {
                   </div>
                   <div className='contentRide'>
                     <span className="ride-name">{ride.name}</span>
-                    <img src={`/${ride.name}.png`} alt="" />
+                    <img src={`/${cleanFileName(ride.name)}.png`} alt="" />
                   </div>
                   
                 </div>
