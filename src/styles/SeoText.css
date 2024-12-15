@@ -46,13 +46,17 @@
 .text-green {
   color: #18cc63!important;
   text-transform: uppercase;
+  font-weight: bold;
+  font-size: x-small;
 }
 .text-red {
   color: #f44336!important;
   text-transform: uppercase;
+  font-weight: bold;
+  font-size: x-small;
 }
 .heureOC {
-  color: rgb(245, 208, 0);
+  color: rgb(245, 208, 0) !important;
   font-weight: bold;
   font-size: x-small;
 }
@@ -80,6 +84,7 @@
     padding-left: 0px;
     transition: background-color 0.3s ease;
     font-weight: bold;
+    max-height: 64px;
 }
   
   /* Style pour le cercle avec le temps d'attente */
@@ -142,6 +147,9 @@
   .ride-name {
     font-size: 1.3rem;
     margin-left: 1rem;
+    display: flex
+;
+    align-items: center;
   }
   
   /* Message de chargement */
@@ -150,6 +158,18 @@
     color: #6b7280;
   }
   
+  .contentRide {
+    display: flex
+;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-right: 1vw;
+}
+
+  .contentRide img {
+    height: 4vh;
+  }
 
   @media (max-width: 768px) {
     .ride-name {
@@ -207,6 +227,12 @@
   color: aliceblue;
   font-size: x-small;
   text-align: right;
+}
+.contentRide {
+  margin-right: 2vw !important;
+}
+.contentRide img {
+  height: 2vh!important;
 }
   }
   

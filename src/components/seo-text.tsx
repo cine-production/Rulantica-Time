@@ -110,7 +110,7 @@ export default function SeoText() {
     <section className="seo-text-container">
       <div className="infoUi">
         <div className="open-info">
-          <span className="infoTextHoraire"><span>Ouvert de<p className="heureOC">&nbsp;{openParc}&nbsp;</p>à<p className="heureOC">&nbsp;{closeParc}</p>.</span><span>le parc sera<p className={`heureOC ${openedorclosetoday === 'ouvert' ? 'text-green ' : 'text-red'}`}>&nbsp;{openedorclosetoday}&nbsp;</p>aujourd'huit</span></span>
+          <span className="infoTextHoraire"><span>Ouvert de<p className="heureOC">&nbsp;{openParc}&nbsp;</p>à<p className="heureOC">&nbsp;{closeParc}</p>.</span><span>le parc sera<p className={`POC ${openedorclosetoday === 'ouvert' ? 'text-green ' : 'text-red'}`}>&nbsp;{openedorclosetoday}&nbsp;</p>aujourd'huit</span></span>
         </div>
         <div className="update-info">
           <p className="infoTextMaj">Mise à jour<br></br>Il y a {elapsedTime} s</p>
@@ -131,7 +131,11 @@ export default function SeoText() {
                   <div className={`wait-time-circle ${getColor(ride.wait_time, ride.is_open)}`}>
                     {ride.is_open ? ride.wait_time : <img width="35rem" src="/fermer.svg" />} {/* Affichage du temps ou du symbole interdit */}
                   </div>
-                  <span className="ride-name">{ride.name}</span>
+                  <div className='contentRide'>
+                    <span className="ride-name">{ride.name}</span>
+                    <img src={`/${ride.name}.png`} alt="" />
+                  </div>
+                  
                 </div>
               ))
             ) : (
