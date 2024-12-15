@@ -32,7 +32,7 @@ export default function Home() {
 
   function anticipateSubscriptionFailure(info: DeviceInfo) {
     if (info.osName === "iOS") {
-      if (minVersionCheck(info.osVersion.toString(), 16, 5)) {
+      if (minVersionCheck(info.osVersion.toString(), 13, 5)) {
         if (!info.standalone) return <IosInstructionalStatic />;
       } else {
         return (
@@ -185,6 +185,8 @@ export default function Home() {
           <div className="h-full max-w-screen-md mx-auto">
             <ContentWrapper message={""}>{actions(state)}</ContentWrapper>
             {result(state)}
+            <Links />
+            <SeoText />
             <Disclaimer />
           </div>
         )}
