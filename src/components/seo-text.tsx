@@ -21,25 +21,31 @@ export default function SeoText() {
   const [elapsedTime, setElapsedTime] = useState<number>(0); // Temps écoulé depuis la dernière mise à jour
 
   // Fonction pour récupérer les données
-  const fetchData = async () => {
+  const fetchData = () => {
     const parkId = '51';
-    const url = `https://corsproxy.io/?https://queue-times.com/parks/${parkId}/queue_times.json`;
-
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    fetch(`https://api.cors.lol/?url=https://queue-times.com/parks/51/queue_times.json`, {
+      method: 'GET',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data && data.lands) {
+          setLands(data.lands);
+          setLastUpdate(new Date());
+          setElapsedTime(0);
+        }
+      })
+      .catch((error) => {
+        console.error('Erreur lors de la récupération des données :', error);
       });
-
-      if (response.data && response.data.lands) {
-        setLands(response.data.lands);
-        setLastUpdate(new Date());
-        setElapsedTime(0);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des données :', error);
-    }
   };
   
 
