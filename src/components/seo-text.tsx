@@ -22,9 +22,17 @@ export default function SeoText() {
 
   // Fonction pour récupérer les données
   const fetchData = async () => {
+    const parkId = '51';
+    const url = `https://corsproxy.io/?https://queue-times.com/parks/${parkId}/queue_times.json`;
+  
     try {
-      // Utilisation du proxy
-      const response = await axios.get('/api/parks/51/queue_times.json');
+      const response = await axios.get(url, {
+        headers: {
+          'Accept': 'application/json', // Spécifie le type de réponse attendu
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        },
+      });
+  
       if (response.data && response.data.lands) {
         setLands(response.data.lands);
         setLastUpdate(new Date());
@@ -34,6 +42,7 @@ export default function SeoText() {
       console.error('Erreur lors de la récupération des données :', error);
     }
   };
+  
   
 
   useEffect(() => {

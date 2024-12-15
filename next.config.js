@@ -8,16 +8,6 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-
-  // Ajout des rewrites pour le serveur proxy
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*', // Ton URL interne de l'application
-        destination: 'https://queue-times.com/:path*', // L'URL externe que tu veux atteindre via le proxy
-      },
-    ];
-  },
 }
 
-module.exports = nextConfig;
+module.exports = nextConfig
