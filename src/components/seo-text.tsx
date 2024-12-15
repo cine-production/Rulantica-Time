@@ -80,7 +80,7 @@ export default function SeoText() {
     <section className="seo-text-container">
       <div className="infoUi">
         <div className="open-info">
-          {/* <p className="infoTextHoraire">Horaire de<p className="heureOC">&nbspo;{penParc}&nbsp;</p>à<p className="heureOC">&nbsp;{closeParc}&nbsp;</p></p> */}
+          {/* <p className="infoTextHoraire">Horaire de<p className="heureOC">&nbsp;{openParc}&nbsp;</p>à<p className="heureOC">&nbsp;{closeParc}&nbsp;</p></p> */}
         </div>
         <div className="update-info">
           <p className="infoTextMaj">Mise à jour<br></br>Il y a {elapsedTime} s</p>
