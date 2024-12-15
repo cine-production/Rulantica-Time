@@ -23,7 +23,7 @@ export default function SeoText() {
   // Fonction pour récupérer les données
   const fetchData = async () => {
     const parkId = '51';
-    const url = `https://corsproxy.io/?https://queue-times.com/parks/${parkId}/queue_times.json`;
+    const url = `https://cors.moesif.com/${encodeURIComponent('https://queue-times.com/parks/51/queue_times.json')}`;
   
     try {
       const response = await axios.get(url, {
