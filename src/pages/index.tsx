@@ -186,7 +186,7 @@ export default function Home() {
             <ContentWrapper message={""}>{actions(state)}</ContentWrapper>
             {result(state)}
             <Links />
-            <SeoText />
+            {info?.standalone && <SeoText />}
             <Disclaimer />
           </div>
         )}
