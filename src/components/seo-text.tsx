@@ -127,7 +127,7 @@ export default function SeoText() {
   const sendNotification = async () => {
     if (isFeatureEnabled && openParc) {
       const openTime = new Date();
-      const openParc = "22:39"; 
+      const openParc = "22:42"; 
       const [hours, minutes] = openParc.split(':').map((str) => parseInt(str, 10));
       openTime.setHours(hours);
       openTime.setMinutes(minutes - notificationTimeBefore); // Calcul de l'heure d'envoi de la notification
