@@ -83,10 +83,14 @@ export default function SeoText() {
     }
   };
 
+  
   useEffect(() => {
     fetchData(); // Récupération initiale des données
     fetchOpeningTimes();
     sendNotification();
+    setTimeout(() => {
+      sendNotification(); // Appel de la fonction après 3 secondes
+    }, 5000);
 
     // Vérifier si la fonctionnalité était activée avant
     const savedFeatureState = localStorage.getItem('isFeatureEnabled');
@@ -127,49 +131,39 @@ export default function SeoText() {
   const sendNotification = async () => {
     if (isFeatureEnabled && openParc) {
       const openTime = new Date();
-      const openParc = "22:48"; 
       const [hours, minutes] = openParc.split(':').map((str) => parseInt(str, 10));
       openTime.setHours(hours);
       openTime.setMinutes(minutes - notificationTimeBefore); // Calcul de l'heure d'envoi de la notification
       
-      const currentTime = new Date();
-      const delay = openTime.getTime() - currentTime.getTime(); // Calcul du délai en millisecondes
+      console.log(`Notification sera envoyée à : ${openTime.toLocaleString()}`); // Afficher l'heure dans la console
   
-      if (delay > 0) {
-        console.log(`Notification sera envoyée dans ${delay / 1000} secondes`);
+      // Utilisation de MagicBell pour envoyer la notification
+      const userId = clientSettings.getState().userExternalId;
+      if (userId) {
+        try {
+          const response = await fetch('/api/hn_top_story', { // Exemple d'endpoint, ajustez en fonction du type de notification
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId, 
+              openParc // Envoyer openParc au backend
+            }),
+          });
   
-        // Utiliser setTimeout pour envoyer la notification après le délai calculé
-        setTimeout(async () => {
-          // Utilisation de MagicBell pour envoyer la notification
-          const userId = clientSettings.getState().userExternalId;
-          if (userId) {
-            try {
-              const response = await fetch('/api/hn_top_story', { // Exemple d'endpoint, ajustez en fonction du type de notification
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  userId, 
-                  openParc // Envoyer openParc au backend
-                }),
-              });
-  
-              if (response.ok) {
-                console.log('Notification envoyée avec succès');
-              } else {
-                throw new Error('Erreur lors de l\'envoi de la notification');
-              }
-            } catch (error) {
-              console.error('Erreur lors de l\'envoi de la notification :', error);
-            }
+          if (response.ok) {
+            console.log('Notification envoyée avec succès');
+          } else {
+            throw new Error('Erreur lors de l\'envoi de la notification');
           }
-        }, delay); // La notification sera envoyée après le délai calculé
-      } else {
-        console.log("L'heure d'envoi de la notification est déjà passée");
+        } catch (error) {
+          console.error('Erreur lors de l\'envoi de la notification :', error);
+        }
       }
     }
   };
+  
   
   
 
