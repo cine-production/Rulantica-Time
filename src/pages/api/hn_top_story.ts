@@ -1,70 +1,34 @@
 import MagicBell from "magicbell"
-import { initializeApp } from "firebase/app"
-import { getDatabase, ref, get, limitToFirst, query } from "firebase/database"
-import type { NextApiRequest, NextApiResponse } from "next"
-import { topics } from "@/constants/topics"
-
-interface WelcomeRequest extends NextApiRequest {
-  body: {
-    userId: string
-  }
-}
-
-type ResponseData = {
-  status: string
-}
-
-type Story = {
-  by: string
-  descendants: number
-  id: number
-  kids: number[]
-  score: number
-  time: number
-  title: string
-  type: "story"
-  url: string
-}
+import { NextApiRequest, NextApiResponse } from "next"
 
 const magicbell = new MagicBell({
   apiKey: process.env.NEXT_PUBLIC_MAGICBELL_API_KEY,
   apiSecret: process.env.MAGICBELL_API_SECRET,
 })
 
-const firebaseConfig = {
-  databaseURL: "https://hacker-news.firebaseio.com",
-}
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { userId, openParc } = req.body; // Extraire openParc et userId du corps de la requête
 
-const app = initializeApp(firebaseConfig)
-const db = getDatabase(app)
+  if (!openParc) {
+    return res.status(400).json({ status: "error", message: "L'heure d'ouverture du parc est manquante" });
+  }
 
-export default async function handler(
-  req: WelcomeRequest,
-  res: NextApiResponse<ResponseData>
-) {
-  const docRef = query(ref(db, "v0/topstories"), limitToFirst(5))
+  try {
+    // Créer la notification avec openParc
+    await magicbell.notifications.create({
+      title: "Ouverture du parc",
+      content: `Le parc ouvre à ${openParc}. Ne manquez pas l'ouverture !`,
+      action_url: "",  // Lien optionnel si vous en avez besoin
+      recipients: [{ external_id: userId }],
+      category: "default",
+    });
 
-  await get(docRef).then(async (snapshot) => {
-    if (snapshot.exists()) {
-      const items = snapshot.val()
-      const fullItems: Story[] = await Promise.all(
-        items.map((item: number) =>
-          get(ref(db, `v0/item/${item}`)).then((snapshot) => snapshot.val())
-        )
-      )
-      // TODO: check for the first un-notified item
-      const firstUnNotifiedItem = fullItems[0]
-      return magicbell.notifications.create({
-        title: `(${firstUnNotifiedItem.score}) ${firstUnNotifiedItem.title}`,
-        action_url: firstUnNotifiedItem.url,
-        recipients: [{ external_id: req.body.userId }],
-        category: "default",
-        topic: topics["HN Top Story"].id,
-      })
+    res.status(200).json({ status: "success" });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ status: "error", message: error.message });
     } else {
-      console.log("No data available")
+      res.status(500).json({ status: "error", message: "Unknown error" });
     }
-  })
-
-  res.status(200).json({ status: "success" })
+  }
 }
