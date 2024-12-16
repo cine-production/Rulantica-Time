@@ -131,41 +131,52 @@ export default function SeoText() {
   const sendNotification = async () => {
     if (isFeatureEnabled && openParc) {
       const openTime = new Date();
+      const openParc = "00:29"; 
       const [hours, minutes] = openParc.split(':').map((str) => parseInt(str, 10));
       openTime.setHours(hours);
       openTime.setMinutes(minutes - notificationTimeBefore); // Calcul de l'heure d'envoi de la notification
       
-      console.log(`Notification sera envoyée à : ${openTime.toLocaleString()}`); // Afficher l'heure dans la console
+      const currentTime = new Date();
+      const delay = openTime.getTime() - currentTime.getTime(); // Calcul du délai en millisecondes
   
-      // Utilisation de MagicBell pour envoyer la notification
-      const userId = clientSettings.getState().userExternalId;
-      if (userId) {
-        try {
-          const response = await fetch('/api/hn_top_story', { // Exemple d'endpoint, ajustez en fonction du type de notification
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              userId, 
-              openParc // Envoyer openParc au backend
-            }),
-          });
+      if (delay > 0) {
+        console.log(`Notification sera envoyée dans ${delay / 1000} secondes`);
   
-          if (response.ok) {
-            console.log('Notification envoyée avec succès');
-          } else {
-            throw new Error('Erreur lors de l\'envoi de la notification');
+        // Utiliser setTimeout pour envoyer la notification après le délai calculé
+        setTimeout(async () => {
+          // Utilisation de MagicBell pour envoyer la notification
+          const userId = clientSettings.getState().userExternalId;
+          if (userId) {
+            try {
+              const response = await fetch('/api/hn_top_story', { // Exemple d'endpoint, ajustez en fonction du type de notification
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  userId, 
+                  openParc // Envoyer openParc au backend
+                }),
+              });
+  
+              if (response.ok) {
+                console.log('Notification envoyée avec succès');
+              } else {
+                throw new Error('Erreur lors de l\'envoi de la notification');
+              }
+            } catch (error) {
+              console.error('Erreur lors de l\'envoi de la notification :', error);
+            }
           }
-        } catch (error) {
-          console.error('Erreur lors de l\'envoi de la notification :', error);
-        }
+        }, delay); // La notification sera envoyée après le délai calculé
+      } else {
+        console.log("L'heure d'envoi de la notification est déjà passée");
       }
     }
   };
   
   
-  
+
 
   // Fonction pour déterminer la couleur en fonction du temps d'attente
   const getColor = (waitTime: number, isOpen: boolean) => {
