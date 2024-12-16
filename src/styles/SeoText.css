@@ -113,7 +113,7 @@
 }
 
 .ride-item.red {
-  background-color: #f44336; /* Rouge pour une attente longue */
+  background-color: #f443364f; /* Rouge pour une attente longue */
   color: #f44336;
 }
 
