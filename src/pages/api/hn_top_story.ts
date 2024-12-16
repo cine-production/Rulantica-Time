@@ -1,5 +1,6 @@
 import MagicBell from "magicbell"
 import { NextApiRequest, NextApiResponse } from "next"
+import { clientSettings } from "@magicbell/react-headless"
 
 const magicbell = new MagicBell({
   apiKey: process.env.NEXT_PUBLIC_MAGICBELL_API_KEY,

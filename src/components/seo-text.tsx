@@ -88,9 +88,6 @@ export default function SeoText() {
     fetchData(); // Récupération initiale des données
     fetchOpeningTimes();
     sendNotification();
-    setTimeout(() => {
-      sendNotification(); // Appel de la fonction après 3 secondes
-    }, 5000);
 
     // Vérifier si la fonctionnalité était activée avant
     const savedFeatureState = localStorage.getItem('isFeatureEnabled');
@@ -131,7 +128,7 @@ export default function SeoText() {
   const sendNotification = async () => {
     if (isFeatureEnabled && openParc) {
       const openTime = new Date();
-      const openParc = "00:29"; 
+      const openParc = "00:54"; 
       const [hours, minutes] = openParc.split(':').map((str) => parseInt(str, 10));
       openTime.setHours(hours);
       openTime.setMinutes(minutes - notificationTimeBefore); // Calcul de l'heure d'envoi de la notification
@@ -152,6 +149,7 @@ export default function SeoText() {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
                 },
                 body: JSON.stringify({
                   userId, 
@@ -176,7 +174,6 @@ export default function SeoText() {
   };
   
   
-
 
   // Fonction pour déterminer la couleur en fonction du temps d'attente
   const getColor = (waitTime: number, isOpen: boolean) => {
