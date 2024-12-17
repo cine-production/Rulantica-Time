@@ -132,7 +132,7 @@ export default function SeoText() {
   const sendNotification = async () => {
     if (isFeatureEnabled && openParc) {
       const openTime = new Date();
-      const openParc = "16:35"; 
+      const openParc = "17:39"; 
       const [hours, minutes] = openParc.split(':').map((str) => parseInt(str, 10));
       openTime.setHours(hours);
       openTime.setMinutes(minutes - notificationTimeBefore); // Calcul de l'heure d'envoi de la notification
@@ -149,7 +149,7 @@ export default function SeoText() {
           const userId = clientSettings.getState().userExternalId;
           if (userId) {
             try {
-              const response = await fetch('/api/hn_top_story', { // Exemple d'endpoint, ajustez en fonction du type de notification
+              const response = await fetch('/api/hn_top_story', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ export default function SeoText() {
                   userId, 
                   openParc // Envoyer openParc au backend
                 }),
-              });
+              });              
   
               if (response.ok) {
                 console.log('Notification envoyée avec succès');
@@ -197,14 +197,14 @@ export default function SeoText() {
     <section className="seo-text-container">
       <div className="infoUi">
         {/* Bouton Paramètres en haut */}
-        <button 
+        {/* <button 
           className="settings-button"
           onClick={() => setShowSettings((prev) => !prev)} // Basculer l'état du panneau de paramètres
         >
           Paramètres
         </button>
         
-        {/* Panneau de paramètres (affiché si showSettings est vrai) */}
+        {/* Panneau de paramètres (affiché si showSettings est vrai)
         {showSettings && (
         <div className="settings-panel">
           <label>
@@ -216,7 +216,7 @@ export default function SeoText() {
             <input type="number" value={notificationTimeBefore} onChange={handleNotificationTimeChange} /> minutes
           </label>
         </div>
-      )}
+      )} */}
 
         <div className="open-info">
           <span className="infoTextHoraire">
