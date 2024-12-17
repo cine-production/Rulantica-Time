@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import MagicBell from "magicbell"
+import subscriptionManager from "@/services/subscriptionManager"
 import { clientSettings } from "@magicbell/react-headless";
 
 
@@ -89,6 +89,7 @@ export default function SeoText() {
     fetchOpeningTimes();
     sendNotification();
 
+
     // Vérifier si la fonctionnalité était activée avant
     const savedFeatureState = localStorage.getItem('isFeatureEnabled');
     if (savedFeatureState) {
@@ -124,11 +125,14 @@ export default function SeoText() {
     setNotificationTimeBefore(Number(event.target.value));
   };
 
+  
+  
+
   // Fonction pour envoyer la notification via MagicBell
   const sendNotification = async () => {
     if (isFeatureEnabled && openParc) {
       const openTime = new Date();
-      const openParc = "00:57"; 
+      const openParc = "16:35"; 
       const [hours, minutes] = openParc.split(':').map((str) => parseInt(str, 10));
       openTime.setHours(hours);
       openTime.setMinutes(minutes - notificationTimeBefore); // Calcul de l'heure d'envoi de la notification
