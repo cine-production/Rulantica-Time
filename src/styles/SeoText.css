@@ -85,8 +85,24 @@
     transition: background-color 0.3s ease;
     font-weight: bold;
     max-height: 64px;
+    transition: height 0.3s ease, all 0.3s ease;
+    flex-wrap: wrap;
+    align-content: space-between;
 }
   
+.ride-item.expanded {
+  height: 180px;
+  max-height: 180px;
+}
+
+.wait-time-circle.transformed {
+  width: 77px;
+  height: 77px;
+  transform: translate(12px, 12px);
+  min-width: 77px;
+  margin-right: 10px;
+  font-size: 4vh;
+}
   /* Style pour le cercle avec le temps d'attente */
   .wait-time-circle {
     width: 64px;
@@ -100,6 +116,7 @@
     font-size:xx-large;
     font-weight: bold;
     min-width: 64px;
+    transition: all ease-in-out 0.4s;
 }
   
 .ride-item.green {
@@ -253,3 +270,72 @@
       gap: 20px;
     }
   } */
+   
+
+  .ride-deve {
+    display: none;
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .ride-item.expanded .ride-deve {
+    display: flex;
+  }
+  
+  .ride-deve button {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .ride-one {
+    display: flex
+;
+    width: 100%;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 25px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 19px;
+  width: 19px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(25px);
+}

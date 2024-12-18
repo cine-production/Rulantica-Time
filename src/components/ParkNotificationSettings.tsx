@@ -1,79 +1,48 @@
-import React, { useState, useEffect } from "react";
-import Modal from "react-modal";
-import axios from "axios";
+import { useState } from 'react';
 
-Modal.setAppElement("#__next"); // Adapté à Next.js
+const AttractionMenu = ({ ride, onClose }) => {
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [thresholdMinutes, setThresholdMinutes] = useState(5); // Minutes par défaut
 
-export default function ParkNotificationSettings() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
-  const [notificationTime, setNotificationTime] = useState(10); // Temps par défaut : 10 minutes
+  const handleSwitchToggle = () => {
+    setNotificationsEnabled(!notificationsEnabled);
+  };
 
-  // Charger l'état initial depuis le localStorage
-  useEffect(() => {
-    const savedSettings = JSON.parse(localStorage.getItem("parkNotificationSettings") || "{}");
-    setIsNotificationEnabled(savedSettings.enabled || false);
-    setNotificationTime(savedSettings.time || 10);
-  }, []);
+  const incrementMinutes = () => {
+    setThresholdMinutes((prev) => prev + 1);
+  };
 
-  // Sauvegarder les paramètres à chaque changement
-  useEffect(() => {
-    localStorage.setItem(
-      "parkNotificationSettings",
-      JSON.stringify({ enabled: isNotificationEnabled, time: notificationTime })
-    );
-  }, [isNotificationEnabled, notificationTime]);
-
-  const handleSaveSettings = async () => {
-    if (isNotificationEnabled) {
-      await axios.post("/src/pages/api/openedpark", { time: notificationTime });
+  const decrementMinutes = () => {
+    if (thresholdMinutes > 0) {
+      setThresholdMinutes((prev) => prev - 1);
     }
-    setIsOpen(false); // Fermer la fenêtre
   };
 
   return (
-    <>
-      <button className="settings-button" onClick={() => setIsOpen(true)}>
-        ⚙️ Paramètres
-      </button>
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        contentLabel="Paramètres de notification"
-        className="modal"
-        overlayClassName="overlay"
-      >
-        <h2>Paramètres de notification</h2>
-        <div className="modal-content">
-          <label>
-            <input
-              type="checkbox"
-              checked={isNotificationEnabled}
-              onChange={(e) => setIsNotificationEnabled(e.target.checked)}
-            />
-            Activer les notifications
-          </label>
-          {isNotificationEnabled && (
-            <>
-              <label>
-                Recevoir une notification :
-                <select
-                  value={notificationTime}
-                  onChange={(e) => setNotificationTime(Number(e.target.value))}
-                >
-                  <option value={5}>5 minutes avant</option>
-                  <option value={10}>10 minutes avant</option>
-                  <option value={15}>15 minutes avant</option>
-                  <option value={20}>20 minutes avant</option>
-                </select>
-              </label>
-            </>
-          )}
-          <button className="save-button" onClick={handleSaveSettings}>
-            Sauvegarder
-          </button>
+    <div className="notification-menu">
+      <h3>Gérer les notifications</h3>
+      <p>Attraction : {ride.name}</p>
+      <div className="menu-item">
+        <label>
+          Activer les notifications :
+          <input
+            type="checkbox"
+            checked={notificationsEnabled}
+            onChange={handleSwitchToggle}
+          />
+        </label>
+      </div>
+      <div className="menu-item">
+        <label>Seuil en minutes :</label>
+        <div className="time-controls">
+          <button onClick={decrementMinutes}>-</button>
+          <span>{thresholdMinutes} min</span>
+          <button onClick={incrementMinutes}>+</button>
         </div>
-      </Modal>
-    </>
+      </div>
+      <button className="close-button" onClick={onClose}>
+        Fermer
+      </button>
+    </div>
   );
-}
+};

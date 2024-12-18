@@ -29,10 +29,11 @@ export default function SeoText() {
   const [isFeatureEnabled, setIsFeatureEnabled] = useState<boolean>(false); // État du switch (activé ou désactivé)
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false); // État pour savoir si la fenêtre des paramètres est ouverte
   const [notificationTimeBefore, setNotificationTimeBefore] = useState<number>(5); // Temps avant l'ouverture du parc pour la notification (en minutes)
-  
+  const [expandedRide, setExpandedRide] = useState<{ [key: number]: number }>({}); // Gérer l'état des temps pour chaque attraction
+
   // Nouveau state pour afficher ou cacher le panneau de paramètres
-  const [showSettings, setShowSettings] = useState<boolean>(false);
-  
+  const [rideFeatureStates, setRideFeatureStates] = useState<{ [key: number]: boolean }>({});
+
 
   const fetchOpeningTimes = async () => {
     try {
@@ -42,7 +43,7 @@ export default function SeoText() {
           'park': 'europapark',
         },
       });
-  
+
       const data = response.data;
       if (data && data.length > 0) {
         const today = data[0];
@@ -64,7 +65,7 @@ export default function SeoText() {
     const parkId = '51';
     // Utiliser l'API proxy de Next.js
     const url = `/api/proxy?parkId=${parkId}`;
-  
+
     try {
       const response = await axios.get(url, {
         headers: {
@@ -72,7 +73,7 @@ export default function SeoText() {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         },
       });
-  
+
       if (response.data && response.data.lands) {
         setLands(response.data.lands);
         setLastUpdate(new Date());
@@ -83,12 +84,21 @@ export default function SeoText() {
     }
   };
 
-  
+
   useEffect(() => {
     fetchData(); // Récupération initiale des données
     fetchOpeningTimes();
     sendNotification();
 
+    const savedRides = Object.keys(localStorage)
+    .filter((key) => key.startsWith('ride-') && key.endsWith('-time'))
+    .reduce((acc, key) => {
+      const rideId = parseInt(key.replace('ride-', '').replace('-time', ''), 10);
+      acc[rideId] = parseInt(localStorage.getItem(key) || '0', 10);
+      return acc;
+    }, {} as { [key: number]: number });
+
+  setExpandedRide(savedRides);
 
     // Vérifier si la fonctionnalité était activée avant
     const savedFeatureState = localStorage.getItem('isFeatureEnabled');
@@ -96,6 +106,15 @@ export default function SeoText() {
       setIsFeatureEnabled(JSON.parse(savedFeatureState));
     }
 
+    const savedSwitchStates = Object.keys(localStorage)
+    .filter((key) => key.startsWith('ride-') && key.endsWith('-enabled'))
+    .reduce((acc, key) => {
+      const rideId = parseInt(key.replace('ride-', '').replace('-enabled', ''), 10);
+      acc[rideId] = JSON.parse(localStorage.getItem(key) || 'false');
+      return acc;
+    }, {} as { [key: number]: boolean });
+
+  setRideFeatureStates(savedSwitchStates);
     // Mise à jour toutes les 60 secondes
     const interval = setInterval(() => {
       fetchData();
@@ -113,36 +132,64 @@ export default function SeoText() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      const rideElements = document.querySelectorAll('.ride-item');
+      let clickedInside = false;
+  
+      rideElements.forEach((element) => {
+        if (element.contains(event.target as Node)) {
+          clickedInside = true;
+        }
+      });
+  
+      if (!clickedInside) {
+        setExpandedRide({});
+      }
+    };
+  
+    document.addEventListener('click', handleOutsideClick);
+  
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
+
   // Gérer le changement d'état du switch
-  const handleSwitchChange = () => {
-    const newState = !isFeatureEnabled;
-    setIsFeatureEnabled(newState);
-    localStorage.setItem('isFeatureEnabled', JSON.stringify(newState)); // Enregistrer l'état dans localStorage
+  const handleRideClick = (rideId: number) => {
+    setExpandedRide((prev) => ({
+      ...prev,
+      [rideId]: prev[rideId] || 0, // Initialiser à 0 si non existant
+    }));
   };
 
-  // Gérer le temps avant l'envoi de la notification
-  const handleNotificationTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNotificationTimeBefore(Number(event.target.value));
+  const handleTimeChange = (rideId: number, change: number) => {
+    setExpandedRide((prev) => {
+      const updatedTime = (prev[rideId] || 0) + change;
+      const time = Math.max(0, updatedTime); // Empêcher un temps négatif
+      localStorage.setItem(`ride-${rideId}-time`, time.toString());
+      return { ...prev, [rideId]: time };
+    });
   };
 
-  
-  
+
+
 
   // Fonction pour envoyer la notification via MagicBell
   const sendNotification = async () => {
     if (isFeatureEnabled && openParc) {
       const openTime = new Date();
-      const openParc = "17:39"; 
+      const openParc = "17:39";
       const [hours, minutes] = openParc.split(':').map((str) => parseInt(str, 10));
       openTime.setHours(hours);
       openTime.setMinutes(minutes - notificationTimeBefore); // Calcul de l'heure d'envoi de la notification
-      
+
       const currentTime = new Date();
       const delay = openTime.getTime() - currentTime.getTime(); // Calcul du délai en millisecondes
-  
+
       if (delay > 0) {
         console.log(`Notification sera envoyée dans ${delay / 1000} secondes`);
-  
+
         // Utiliser setTimeout pour envoyer la notification après le délai calculé
         setTimeout(async () => {
           // Utilisation de MagicBell pour envoyer la notification
@@ -153,14 +200,14 @@ export default function SeoText() {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
-                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
                 },
                 body: JSON.stringify({
-                  userId, 
+                  userId,
                   openParc // Envoyer openParc au backend
                 }),
-              });              
-  
+              });
+
               if (response.ok) {
                 console.log('Notification envoyée avec succès');
               } else {
@@ -176,8 +223,8 @@ export default function SeoText() {
       }
     }
   };
-  
-  
+
+
 
   // Fonction pour déterminer la couleur en fonction du temps d'attente
   const getColor = (waitTime: number, isOpen: boolean) => {
@@ -191,7 +238,7 @@ export default function SeoText() {
     return name.replace(/[^a-zA-Z0-9]/g, ""); // Supprime tous les caractères non alphanumériques
   };
 
-  
+
 
   return (
     <section className="seo-text-container">
@@ -237,15 +284,40 @@ export default function SeoText() {
               land.rides.map((ride) => (
                 <div
                   key={ride.id}
-                  className={`ride-item ${getColor(ride.wait_time, ride.is_open)}`} // Application dynamique de la couleur
+                  className={`ride-item ${getColor(ride.wait_time, ride.is_open)} ${expandedRide[ride.id] !== undefined ? 'expanded' : ''
+                    }`}
+                  //onClick={() => handleRideClick(ride.id)} // Gestion du clic
                 >
-                  <div className={`wait-time-circle ${getColor(ride.wait_time, ride.is_open)}`}>
-                    {ride.is_open ? ride.wait_time : <img width="35rem" src="/fermer.svg" />} {/* Affichage du temps ou du symbole interdit */}
+                  <div className="ride-one">
+                    <div className={`wait-time-circle ${getColor(ride.wait_time, ride.is_open)} ${expandedRide[ride.id] !== undefined ? 'transformed' : ''}`}>
+                      {ride.is_open ? ride.wait_time : <img width="35rem" src="/fermer.svg" />} {/* Affichage du temps ou du symbole interdit */}
+                    </div>
+                    <div className='contentRide'>
+                      <span className="ride-name">{ride.name}</span>
+                      <img src={`/${cleanFileName(ride.name)}.png`} alt="" />
+                    </div>
                   </div>
-                  <div className='contentRide'>
-                    <span className="ride-name">{ride.name}</span>
-                    <img src={`/${cleanFileName(ride.name)}.png`} alt="" />
-                  </div>
+                  {expandedRide[ride.id] !== undefined && (
+  <div className="ride-deve">
+    <label className="switch">
+      <input
+        type="checkbox"
+        checked={isFeatureEnabled} // État du switch
+        onChange={(e) => {
+          e.stopPropagation();
+          const newState = e.target.checked;
+          setIsFeatureEnabled(newState);
+          localStorage.setItem(`ride-${ride.id}-enabled`, JSON.stringify(newState));
+        }}
+      />
+      <span className="slider"></span>
+    </label>
+    <button onClick={(e) => { e.stopPropagation(); handleTimeChange(ride.id, -5); }}>-</button>
+    <span>{expandedRide[ride.id]} min</span>
+    <button onClick={(e) => { e.stopPropagation(); handleTimeChange(ride.id, 5); }}>+</button>
+  </div>
+)}
+
                 </div>
               ))
             ) : (
