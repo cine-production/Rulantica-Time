@@ -3,8 +3,8 @@
   "short_name": "EuroParkTime",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#90cdf4",
-  "theme_color": "#90cdf4",
+  "background_color": "#90cdf400",
+  "theme_color": "#90cdf400",
   "orientation": "portrait-primary",
   "icons": [
     {
