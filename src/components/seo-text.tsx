@@ -91,14 +91,14 @@ export default function SeoText() {
     sendNotification();
 
     const savedRides = Object.keys(localStorage)
-    .filter((key) => key.startsWith('ride-') && key.endsWith('-time'))
-    .reduce((acc, key) => {
-      const rideId = parseInt(key.replace('ride-', '').replace('-time', ''), 10);
-      acc[rideId] = parseInt(localStorage.getItem(key) || '0', 10);
-      return acc;
-    }, {} as { [key: number]: number });
+      .filter((key) => key.startsWith('ride-') && key.endsWith('-time'))
+      .reduce((acc, key) => {
+        const rideId = parseInt(key.replace('ride-', '').replace('-time', ''), 10);
+        acc[rideId] = parseInt(localStorage.getItem(key) || '0', 10);
+        return acc;
+      }, {} as { [key: number]: number });
 
-  setExpandedRide(savedRides);
+    setExpandedRide(savedRides);
 
     // Vérifier si la fonctionnalité était activée avant
     const savedFeatureState = localStorage.getItem('isFeatureEnabled');
@@ -107,14 +107,14 @@ export default function SeoText() {
     }
 
     const savedSwitchStates = Object.keys(localStorage)
-    .filter((key) => key.startsWith('ride-') && key.endsWith('-enabled'))
-    .reduce((acc, key) => {
-      const rideId = parseInt(key.replace('ride-', '').replace('-enabled', ''), 10);
-      acc[rideId] = JSON.parse(localStorage.getItem(key) || 'false');
-      return acc;
-    }, {} as { [key: number]: boolean });
+      .filter((key) => key.startsWith('ride-') && key.endsWith('-enabled'))
+      .reduce((acc, key) => {
+        const rideId = parseInt(key.replace('ride-', '').replace('-enabled', ''), 10);
+        acc[rideId] = JSON.parse(localStorage.getItem(key) || 'false');
+        return acc;
+      }, {} as { [key: number]: boolean });
 
-  setRideFeatureStates(savedSwitchStates);
+    setRideFeatureStates(savedSwitchStates);
     // Mise à jour toutes les 60 secondes
     const interval = setInterval(() => {
       fetchData();
@@ -136,20 +136,20 @@ export default function SeoText() {
     const handleOutsideClick = (event: MouseEvent) => {
       const rideElements = document.querySelectorAll('.ride-item');
       let clickedInside = false;
-  
+
       rideElements.forEach((element) => {
         if (element.contains(event.target as Node)) {
           clickedInside = true;
         }
       });
-  
+
       if (!clickedInside) {
         setExpandedRide({});
       }
     };
-  
+
     document.addEventListener('click', handleOutsideClick);
-  
+
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
@@ -264,7 +264,7 @@ export default function SeoText() {
                   key={ride.id}
                   className={`ride-item ${getColor(ride.wait_time, ride.is_open)} ${expandedRide[ride.id] !== undefined ? 'expanded' : ''
                     }`}
-                  //onClick={() => handleRideClick(ride.id)} // Gestion du clic
+                //onClick={() => handleRideClick(ride.id)} // Gestion du clic
                 >
                   <div className="ride-one">
                     <div className={`wait-time-circle ${getColor(ride.wait_time, ride.is_open)} ${expandedRide[ride.id] !== undefined ? 'transformed' : ''}`}>
@@ -276,25 +276,25 @@ export default function SeoText() {
                     </div>
                   </div>
                   {expandedRide[ride.id] !== undefined && (
-  <div className="ride-deve">
-    <label className="switch">
-      <input
-        type="checkbox"
-        checked={isFeatureEnabled} // État du switch
-        onChange={(e) => {
-          e.stopPropagation();
-          const newState = e.target.checked;
-          setIsFeatureEnabled(newState);
-          localStorage.setItem(`ride-${ride.id}-enabled`, JSON.stringify(newState));
-        }}
-      />
-      <span className="slider"></span>
-    </label>
-    <button onClick={(e) => { e.stopPropagation(); handleTimeChange(ride.id, -5); }}>-</button>
-    <span>{expandedRide[ride.id]} min</span>
-    <button onClick={(e) => { e.stopPropagation(); handleTimeChange(ride.id, 5); }}>+</button>
-  </div>
-)}
+                    <div className="ride-deve">
+                      <label className="switch">
+                        <input
+                          type="checkbox"
+                          checked={isFeatureEnabled} // État du switch
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            const newState = e.target.checked;
+                            setIsFeatureEnabled(newState);
+                            localStorage.setItem(`ride-${ride.id}-enabled`, JSON.stringify(newState));
+                          }}
+                        />
+                        <span className="slider"></span>
+                      </label>
+                      <button onClick={(e) => { e.stopPropagation(); handleTimeChange(ride.id, -5); }}>-</button>
+                      <span>{expandedRide[ride.id]} min</span>
+                      <button onClick={(e) => { e.stopPropagation(); handleTimeChange(ride.id, 5); }}>+</button>
+                    </div>
+                  )}
 
                 </div>
               ))

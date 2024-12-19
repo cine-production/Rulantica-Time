@@ -62,12 +62,12 @@ export default function Subscriber({
 
   return (
     <>
-      <Button
+      {/* <Button
         onClick={handleSubscribe}
         text="Autoriser les notifications"
         classname="bg-primary"
         disabled={false}
-      />
+      /> */}
       {/* <p className="text-xs mt-6 mb-16">
         * Once you subscribe we will send you one automatic test-notification.
         You can unsubscribe at any time.

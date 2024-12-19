@@ -11,7 +11,7 @@ body {
     color: rgb(var(--foreground-rgb));
     background-image: url(https://presse.europapark.com/uploads/pics/18196-Winter_DeutscheAllee.jpg);
     background-size: cover;
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(23px);
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
