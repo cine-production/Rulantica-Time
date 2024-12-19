@@ -243,28 +243,6 @@ export default function SeoText() {
   return (
     <section className="seo-text-container">
       <div className="infoUi">
-        {/* Bouton Paramètres en haut */}
-        {/* <button 
-          className="settings-button"
-          onClick={() => setShowSettings((prev) => !prev)} // Basculer l'état du panneau de paramètres
-        >
-          Paramètres
-        </button>
-        
-        {/* Panneau de paramètres (affiché si showSettings est vrai)
-        {showSettings && (
-        <div className="settings-panel">
-          <label>
-            Activer la fonctionnalité :
-            <input type="checkbox" checked={isFeatureEnabled} onChange={handleSwitchChange} />
-          </label>
-          <label>
-            Temps avant l'ouverture pour notification :
-            <input type="number" value={notificationTimeBefore} onChange={handleNotificationTimeChange} /> minutes
-          </label>
-        </div>
-      )} */}
-
         <div className="open-info">
           <span className="infoTextHoraire">
             <span>Ouvert de<p className="heureOC">&nbsp;{openParc}&nbsp;</p>à<p className="heureOC">&nbsp;{closeParc}</p>.</span>
