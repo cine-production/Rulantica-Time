@@ -3,17 +3,53 @@
 @tailwind utilities;
 
 :root {
-    --foreground-rgb: 0, 0, 0;
-}
+    --bg-day-desktop: url('https://www.grooupee.fr/client/cache/produit/555_312____2__europapark_03_front_large_4638.jpg');
+    --bg-day-mobile: url('https://bocir-prod-bucket.s3.amazonaws.com/radios/dreyeckland/importrk/news/portraits/5d764b9babcd06.10656527.png');
+    --bg-night-desktop: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0uP49XewT3tqDYSZ0Ym8nNDF2oZRgL5CSqA&s');
+    --bg-night-mobile: url('https://www.europapark.de/sites/default/files/styles/hc_background_mobile/public/media_image/2022-03/EP19_Hotels_Kronasar_Winter_Nacht_3.jpg?h=d1cb525d&itok=zLCaVGo_');
+  }
+  
+  .day-desktop {
+    background-image: var(--bg-day-desktop);
+  }
+  
+  /* Fond d'écran de nuit pour desktop */
+  .night-desktop {
+    background-image: var(--bg-night-desktop);
+  }
+  
+  /* Fond d'écran de jour pour mobile */
+  .day-mobile {
+    background-image: none;
+  }
+  
+  /* Fond d'écran de nuit pour mobile */
+  .night-mobile {
+    background-image: none;
+  }
 
 
 body {
     color: rgb(var(--foreground-rgb));
-    background-image: url(https://presse.europapark.com/uploads/pics/18196-Winter_DeutscheAllee.jpg);
     background-size: cover;
     backdrop-filter: blur(23px);
     background-repeat: no-repeat;
     background-attachment: fixed;
+}
+
+@media (max-width: 768px) {
+    .day-desktop,
+  .night-desktop {
+    background-image: none; /* Pas d'images desktop sur mobile */
+  }
+
+  .day-mobile {
+    background-image: var(--bg-day-mobile);
+  }
+
+  .night-mobile {
+    background-image: var(--bg-night-mobile);
+  }
 }
 
 html,

@@ -1,4 +1,6 @@
 /* Style général de la section */
+
+
 .seo-text-container {
     text-align: center;
     margin-top: 2rem;
@@ -30,6 +32,7 @@
   justify-content: space-between;
   width: 100%;
   align-items: flex-end;
+  text-shadow: 0 0 6px black;
 }
 
 .infoTextHoraire {
@@ -56,7 +59,7 @@
   font-size: x-small;
 }
 .heureOC {
-  color: rgb(245, 208, 0) !important;
+  color: rgb(238, 209, 45) !important;
   font-weight: bold;
   font-size: x-small;
 }
@@ -251,6 +254,10 @@
 .contentRide img {
   height: 2vh!important;
 }
+
+
+
+
   }
   
   /* Styles pour les écrans d'ordinateur */

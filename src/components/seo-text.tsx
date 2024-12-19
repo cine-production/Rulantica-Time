@@ -173,7 +173,31 @@ export default function SeoText() {
   };
 
 
+  useEffect(() => {
+    const updateBackground = () => {
+      const hour = new Date().getHours(); // Obtenir l'heure actuelle
+      const isDaytime = hour >= 8 && hour < 16; // De 6h à 18h = jour
+      const isMobile = window.innerWidth <= 768; // Détection mobile
 
+      // Définir la classe appropriée
+      const bodyClass = isDaytime
+        ? isMobile
+          ? 'day-mobile'
+          : 'day-desktop'
+        : isMobile
+        ? 'night-mobile'
+        : 'night-desktop';
+
+      document.body.className = bodyClass; // Appliquer la classe au body
+    };
+
+    updateBackground(); // Mise à jour initiale
+
+    // Vérification toutes les heures
+    const interval = setInterval(updateBackground, 1 * 1 * 1000);
+
+    return () => clearInterval(interval); // Nettoyage de l'intervalle
+  }, []);
 
   // Fonction pour envoyer la notification via MagicBell
   const sendNotification = async () => {
