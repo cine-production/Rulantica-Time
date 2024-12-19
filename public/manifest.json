@@ -1,10 +1,10 @@
 {
   "name": "Europa Park Time",
-  "short_name": "EuroParkTime",
+  "short_name": "EuropaPark-Time",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#90cdf400",
-  "theme_color": "#90cdf400",
+  "background_color": "#416cbd",
+  "theme_color": "#416cbd",
   "orientation": "portrait-primary",
   "icons": [
     {
