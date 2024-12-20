@@ -1,7 +1,7 @@
 {
   "name": "rulanticatime",
   "version": "0.1.0",
-  "homepage": "https://cine-production.github.io/EPTime",
+  "homepage": "https://cine-production.github.io/Rulantica-Time",
   "private": true,
   "proxy": "https://api.wartezeiten.app",
   "scripts": {

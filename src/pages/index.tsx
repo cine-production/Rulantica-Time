@@ -154,23 +154,23 @@ export default function Home() {
           inter.className
         }
       >
-        <h1>Europa Park Time</h1>
+        <h1>Rulantica Time</h1>
       </header>
 
       <Head>
-        <title>Temps d'attente des attractions d'Europa Park</title>
+        <title>Temps d'attente des attractions de Rulantica</title>
         <meta
           name="description"
-          content="Temps d'attente des attractions d'Europa Park"
+          content="Temps d'attente des attractions de Rulantica"
           key="desc"
         />
         <meta
           property="og:title"
-          content="Temps d'attente des attractions d'Europa Park"
+          content="Temps d'attente des attractions de Rulantica"
         />
         <meta
           property="og:description"
-          content="Temps d'attente des attractions d'Europa Park"
+          content="Temps d'attente des attractions de Rulantica"
         />
         <meta property="og:image" content="/sharing-image.png" />
         <meta property="og:image:width" content="432" />
@@ -186,8 +186,8 @@ export default function Home() {
             <ContentWrapper message={""}>{actions(state)}</ContentWrapper>
             {result(state)}
             <Links />
-            {/* {info?.standalone && <SeoText />} */}
-            <SeoText />
+            {info?.standalone && <SeoText />}
+            {/* <SeoText /> */}
             <Disclaimer />
           </div>
         )}

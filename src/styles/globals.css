@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-    --bg-day-desktop: url('https://www.grooupee.fr/client/cache/produit/555_312____2__europapark_03_front_large_4638.jpg');
-    --bg-day-mobile: url('https://bocir-prod-bucket.s3.amazonaws.com/radios/dreyeckland/importrk/news/portraits/5d764b9babcd06.10656527.png');
-    --bg-night-desktop: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0uP49XewT3tqDYSZ0Ym8nNDF2oZRgL5CSqA&s');
-    --bg-night-mobile: url('https://www.europapark.de/sites/default/files/styles/hc_background_mobile/public/media_image/2022-03/EP19_Hotels_Kronasar_Winter_Nacht_3.jpg?h=d1cb525d&itok=zLCaVGo_');
+    --bg-day-desktop: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/21/03/4f/rulantica-panorama.jpg?w=900&h=500&s=1');
+    --bg-day-mobile: url('https://www.europapark.de/sites/default/files/styles/hc_background_mobile/public/media_image/2023-02/RU23_Vikinglop_0.jpg?h=095b59c2&itok=BnQIDOOX');
+    --bg-night-desktop: url('https://images.rtl.fr/~c/1200v800/funradio/www/984319-les-attractions-sont-mises-en-scene-dans-un-decor-nordique-photo-capture-ecran-rulantica-com.jpg');
+    --bg-night-mobile: url('https://pbs.twimg.com/media/ELMvHM5XkAA94Ol.jpg');
   }
   
   .day-desktop {
