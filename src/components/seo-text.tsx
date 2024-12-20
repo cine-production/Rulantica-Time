@@ -34,13 +34,14 @@ export default function SeoText() {
   // Nouveau state pour afficher ou cacher le panneau de paramètres
   const [rideFeatureStates, setRideFeatureStates] = useState<{ [key: number]: boolean }>({});
 
+  
 
   const fetchOpeningTimes = async () => {
     try {
       const response = await axios.get('/api/proxy?openingtimes=true', {
         headers: {
           'accept': 'application/json',
-          'park': 'europapark',
+          'park': 'rulantica',
         },
       });
 
@@ -62,7 +63,7 @@ export default function SeoText() {
   };
 
   const fetchData = async () => {
-    const parkId = '51';
+    const parkId = '309';
     // Utiliser l'API proxy de Next.js
     const url = `/api/proxy?parkId=${parkId}`;
 
@@ -82,6 +83,7 @@ export default function SeoText() {
     } catch (error) {
       console.error('Erreur lors de la récupération des données :', error);
     }
+    
   };
 
 
